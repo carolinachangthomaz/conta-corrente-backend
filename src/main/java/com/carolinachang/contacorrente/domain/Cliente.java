@@ -13,6 +13,7 @@ public class Cliente implements Serializable{
 	private String id;
 	private String nome;
 	private String email;
+	private String senha;
 	
 	public Cliente() {
 		
@@ -48,7 +49,15 @@ public class Cliente implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getSenha() {
+		return senha;
+	}
 
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,5 +82,5 @@ public class Cliente implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }
