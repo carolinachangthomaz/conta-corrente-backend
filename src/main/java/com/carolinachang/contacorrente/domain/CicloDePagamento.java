@@ -17,7 +17,7 @@ public class CicloDePagamento implements Serializable {
     private Integer mês;
     private Integer ano;
     private Conta conta;
-    private Double total;
+    private Double saldo;
     private Double totalCreditos;
     private Double totalDebitos;
     
@@ -70,9 +70,9 @@ public class CicloDePagamento implements Serializable {
 		this.conta = conta;
 	}
 	
-	public Double getTotal() {
-		this.total = this.getTotalCreditos() - this.getTotalDebitos();
-		return this.total;
+	public Double getSaldo() {
+		this.saldo = this.getTotalCreditos() - this.getTotalDebitos();
+		return this.saldo;
 	}
 
 	public Double getTotalCreditos() {

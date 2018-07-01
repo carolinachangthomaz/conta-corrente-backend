@@ -53,14 +53,14 @@ public class ClienteInitConfig implements CommandLineRunner{
 		
 		CicloDePagamento ciclo1 = new CicloDePagamento(null, "Junho", 6, 2018,conta);
 		Credito credito1 = new Credito(sdf.parse("01/06/2018"), "Salario", 5000.00);
-		Debito debito1 = new Debito(sdf.parse("01/06/2018"), "telefone", 50.00);
+		Debito debito1 = new Debito(sdf.parse("01/06/2018"), "telefone", 1000.00);
 		
 		ciclo1.getCreditos().addAll(Arrays.asList(credito1));
 		ciclo1.getDebitos().addAll(Arrays.asList(debito1));
 		
 		CicloDePagamento ciclo2 = new CicloDePagamento(null, "Julho", 7, 2018,conta);
 		Credito credito2 = new Credito(sdf.parse("01/07/2018"), "Salario", 5000.00);
-		Debito debito2 = new Debito(sdf.parse("01/07/2018"), "telefone", 50.00);
+		Debito debito2 = new Debito(sdf.parse("01/07/2018"), "telefone", 500.00);
 		
 		ciclo2.getCreditos().addAll(Arrays.asList(credito2));
 		ciclo2.getDebitos().addAll(Arrays.asList(debito2));
@@ -68,18 +68,18 @@ public class ClienteInitConfig implements CommandLineRunner{
 		
 		cicloDePagamentoRepository.saveAll(Arrays.asList(ciclo1,ciclo2));
 		
-		System.out.println("C1 Total" +ciclo1.getTotal());
+		System.out.println("C1 Saldo" +ciclo1.getSaldo());
 		System.out.println("C1 Total Cred" +ciclo1.getTotalCreditos());
 		System.out.println("C1 Total deb" +ciclo1.getTotalDebitos());
 		
-		System.out.println("C2 Total" +ciclo2.getTotal());
+		
+		System.out.println("C2 Saldo" +ciclo2.getSaldo());
 		System.out.println("C2 Total Cred" +ciclo2.getTotalCreditos());
 		System.out.println("C2 Total deb" +ciclo2.getTotalDebitos());
 		
 		conta.getCiclos().addAll(Arrays.asList(ciclo1,ciclo2));
+		
 		contaRepository.save(conta);
-		
-		
 		
 		
 	}

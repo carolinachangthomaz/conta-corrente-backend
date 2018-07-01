@@ -64,14 +64,11 @@ public class Conta implements Serializable{
 		this.ciclos = ciclos;
 	}
 	
-	
-
 	public Double getSaldo() {
+		this.saldo = getCiclos().stream().filter(ciclo -> ciclo != null && 
+				ciclo.getSaldo() !=null).mapToDouble(CicloDePagamento::getSaldo).sum();
+		System.out.println("Conta" +this.saldo);
 		return saldo;
-	}
-
-	public void setSaldo(Double saldo) {
-		this.saldo = saldo;
 	}
 
 	@Override
