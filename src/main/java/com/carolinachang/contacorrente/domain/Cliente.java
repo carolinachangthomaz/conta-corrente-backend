@@ -1,8 +1,11 @@
 package com.carolinachang.contacorrente.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -14,6 +17,9 @@ public class Cliente implements Serializable{
 	private String nome;
 	private String email;
 	private String senha;
+	
+	@DBRef	
+	private List<Conta> contas = new ArrayList<>();
 	
 	public Cliente() {
 		
@@ -56,6 +62,14 @@ public class Cliente implements Serializable{
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public List<Conta> getContas() {
+		return contas;
+	}
+
+	public void setContas(List<Conta> contas) {
+		this.contas = contas;
 	}
 	
 	@Override

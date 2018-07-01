@@ -32,10 +32,14 @@ public class ClienteInitConfig implements CommandLineRunner{
 		Cliente carol = new Cliente(null,"Carol","carol.com.jp@gmail.com");
 		Cliente xis = new Cliente(null,"Xis","xiscardoso@gmail.com");
 		
-		Conta conta = new Conta(null, "2324", carol);
-		
 		clienteRepository.saveAll(Arrays.asList(carol,xis));
+		
+		Conta conta = new Conta(null, "2324", carol);
+			
 		contaRepository.saveAll(Arrays.asList(conta));
+		
+		carol.getContas().addAll(Arrays.asList(conta));
+		clienteRepository.save(carol);
 		
 		
 	}
