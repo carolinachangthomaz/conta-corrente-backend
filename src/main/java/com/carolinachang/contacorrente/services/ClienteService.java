@@ -35,5 +35,10 @@ public class ClienteService {
 	public Cliente fromDTO(ClienteDTO clienteDTO) {
 		return new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail());
 	}
+	
+	public void delete(String id) {
+		findById(id);
+		clienteRepository.deleteById(id);
+	}
 
 }

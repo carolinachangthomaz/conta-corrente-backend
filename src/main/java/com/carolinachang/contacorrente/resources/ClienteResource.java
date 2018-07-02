@@ -46,6 +46,12 @@ public class ClienteResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(value="/{id}" ,method=RequestMethod.DELETE)
+	public ResponseEntity<ClienteDTO> delete(@PathVariable String id){
+		clienteService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@RequestMapping(value="/{id}/contas" ,method=RequestMethod.GET)
 	public ResponseEntity<List<Conta>> findContas(@PathVariable String id){
 		Cliente cliente = clienteService.findById(id);
