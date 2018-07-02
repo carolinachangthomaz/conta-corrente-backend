@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.carolinachang.contacorrente.dto.ContaClienteDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document
@@ -18,7 +19,7 @@ public class Conta implements Serializable{
      private String id;
      private String numero;
      private Double saldo;
-     private Cliente cliente;
+     private ContaClienteDTO cliente;
      
      @DBRef(lazy = true)
  	 @JsonIgnore
@@ -28,7 +29,7 @@ public class Conta implements Serializable{
     	 
      }
 
-	public Conta(String id, String numero,Cliente cliente) {
+	public Conta(String id, String numero,ContaClienteDTO cliente) {
 		super();
 		this.id = id;
 		this.numero = numero;
@@ -51,11 +52,11 @@ public class Conta implements Serializable{
 		this.numero = numero;
 	}
 
-	public Cliente getCliente() {
+	public ContaClienteDTO getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(ContaClienteDTO cliente) {
 		this.cliente = cliente;
 	}
 	

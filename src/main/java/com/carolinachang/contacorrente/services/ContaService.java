@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.carolinachang.contacorrente.domain.Cliente;
 import com.carolinachang.contacorrente.domain.Conta;
+import com.carolinachang.contacorrente.dto.ClienteDTO;
 import com.carolinachang.contacorrente.repository.ContaRepository;
 import com.carolinachang.contacorrente.services.exception.ObjectNotFoundException;
 
@@ -28,6 +29,32 @@ public class ContaService {
 		Optional<Conta> conta = contaRepository.findById(id);
 		return	conta.orElseThrow(() -> new ObjectNotFoundException(
 				"Conta Não encontrado: " +id+ ", Tipo :" +Cliente.class));
+	}
+	
+	public Conta insert(Conta conta) {
+		return contaRepository.insert(conta);
+	}
+	
+	public Cliente fromDTO(ClienteDTO clienteDTO) {
+		return new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail());
+	}
+	
+	public void delete(String id) {
+		findById(id);
+		contaRepository.deleteById(id);
+	}
+	
+	public Conta update(Conta conta) {
+		Conta newConta = findById(conta.getId());
+		updateData(newConta, conta);
+		return contaRepository.save(newConta);
+		
+	}
+
+	private void updateData(Conta newConta, Conta conta) {
+		newConta.setNumero(conta.getNumero());
+		newConta.setCiclos(conta.getCiclos());
+		
 	}
 
 }
