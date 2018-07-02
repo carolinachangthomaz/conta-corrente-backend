@@ -40,5 +40,18 @@ public class ClienteService {
 		findById(id);
 		clienteRepository.deleteById(id);
 	}
+	
+	public Cliente update(Cliente cliente) {
+		Cliente newCliente = findById(cliente.getId());
+		updateData(newCliente, cliente);
+		return clienteRepository.save(newCliente);
+		
+	}
+
+	private void updateData(Cliente newCliente, Cliente cliente) {
+		newCliente.setEmail(cliente.getEmail());
+		newCliente.setNome(cliente.getNome());
+		
+	}
 
 }

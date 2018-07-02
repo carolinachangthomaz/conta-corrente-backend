@@ -52,6 +52,14 @@ public class ClienteResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@RequestMapping(value="/{id}" ,method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody ClienteDTO clienteDTO, @PathVariable String id){
+		Cliente cliente = clienteService.fromDTO(clienteDTO);
+		cliente.setId(id);
+		cliente = clienteService.update(cliente);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@RequestMapping(value="/{id}/contas" ,method=RequestMethod.GET)
 	public ResponseEntity<List<Conta>> findContas(@PathVariable String id){
 		Cliente cliente = clienteService.findById(id);
