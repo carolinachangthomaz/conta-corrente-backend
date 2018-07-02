@@ -42,14 +42,14 @@ public class ClienteInitConfig implements CommandLineRunner{
 		Cliente carol = new Cliente(null,"Carol","carol.com.jp@gmail.com");
 		Cliente xis = new Cliente(null,"Xis","xiscardoso@gmail.com");
 		
-		clienteRepository.saveAll(Arrays.asList(carol,xis));
+		
 		
 		Conta conta = new Conta(null, "2324", carol);
 			
 		conta = contaRepository.save(conta);
 		
 		carol.getContas().addAll(Arrays.asList(conta));
-		clienteRepository.save(carol);
+		clienteRepository.saveAll(Arrays.asList(carol,xis));
 		
 		CicloDePagamento ciclo1 = new CicloDePagamento(null, "Junho", 6, 2018,conta);
 		Credito credito1 = new Credito(sdf.parse("01/06/2018"), "Salario", 5000.00);

@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Document
 public class Cliente implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -18,7 +20,8 @@ public class Cliente implements Serializable{
 	private String email;
 	private String senha;
 	
-	@DBRef	
+	@DBRef(lazy = true)
+	@JsonIgnore
 	private List<Conta> contas = new ArrayList<>();
 	
 	public Cliente() {

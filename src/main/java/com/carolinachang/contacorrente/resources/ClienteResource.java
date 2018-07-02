@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carolinachang.contacorrente.domain.Cliente;
+import com.carolinachang.contacorrente.domain.Conta;
 import com.carolinachang.contacorrente.dto.ClienteDTO;
 import com.carolinachang.contacorrente.services.ClienteService;
 
@@ -32,6 +33,12 @@ public class ClienteResource {
 	public ResponseEntity<ClienteDTO> findById(@PathVariable String id){
 		Cliente cliente = clienteService.findById(id);
 		return ResponseEntity.ok().body(new ClienteDTO(cliente));
+	}
+	
+	@RequestMapping(value="/{id}/contas" ,method=RequestMethod.GET)
+	public ResponseEntity<List<Conta>> findContas(@PathVariable String id){
+		Cliente cliente = clienteService.findById(id);
+		return ResponseEntity.ok().body(cliente.getContas());
 	}
 
 }

@@ -21,7 +21,7 @@ public class ClienteService {
 	
 	public Cliente findById(String id) {
 		Optional<Cliente> cliente = clienteRepository.findById(id);
-		return cliente.get();
+		return cliente.orElse(null);
 	}
 
 }

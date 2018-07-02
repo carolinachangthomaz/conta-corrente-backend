@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Document
 public class Conta implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -18,7 +20,8 @@ public class Conta implements Serializable{
      private Double saldo;
      private Cliente cliente;
      
-     @DBRef
+     @DBRef(lazy = true)
+ 	 @JsonIgnore
      private List<CicloDePagamento> ciclos = new ArrayList<>();	
      
      public Conta() {
