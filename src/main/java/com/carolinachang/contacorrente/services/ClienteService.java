@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.carolinachang.contacorrente.domain.Cliente;
 import com.carolinachang.contacorrente.repository.ClienteRepository;
+import com.carolinachang.contacorrente.services.exception.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
@@ -21,7 +22,9 @@ public class ClienteService {
 	
 	public Cliente findById(String id) {
 		Optional<Cliente> cliente = clienteRepository.findById(id);
-		return cliente.orElse(null);
+		return	cliente.orElseThrow(() -> new ObjectNotFoundException(
+					"Cliente Não encontrado: " +id+ ", Tipo :" +Cliente.class));
+		
 	}
 
 }

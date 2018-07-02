@@ -1,6 +1,5 @@
 package com.carolinachang.contacorrente.config;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 

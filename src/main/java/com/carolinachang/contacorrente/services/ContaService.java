@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.carolinachang.contacorrente.domain.Cliente;
 import com.carolinachang.contacorrente.domain.Conta;
 import com.carolinachang.contacorrente.repository.ContaRepository;
+import com.carolinachang.contacorrente.services.exception.ObjectNotFoundException;
 
 @Service
 public class ContaService {
@@ -24,7 +26,8 @@ public class ContaService {
 
 	public Conta findById(String id) {
 		Optional<Conta> conta = contaRepository.findById(id);
-		return conta.orElse(null);
+		return	conta.orElseThrow(() -> new ObjectNotFoundException(
+				"Conta Não encontrado: " +id+ ", Tipo :" +Cliente.class));
 	}
 
 }
