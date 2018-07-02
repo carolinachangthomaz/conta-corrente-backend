@@ -23,8 +23,15 @@ public class ContaResource {
 	@Autowired
 	private ContaService contaService; 
 	
+	
 	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
-	public ResponseEntity<List<Conta>> findById(@PathVariable String id){
+	public ResponseEntity<Conta> findById(@PathVariable String id){
+		Conta conta = contaService.findById(id);
+		return ResponseEntity.ok().body(conta);
+	}
+	
+	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
+	public ResponseEntity<List<Conta>> findByClienteId(@PathVariable String id){
 		List<Conta> contas = contaService.findByClienteId(id);
 		return ResponseEntity.ok().body(contas);
 	}

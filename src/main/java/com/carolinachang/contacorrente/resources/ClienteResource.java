@@ -61,7 +61,7 @@ public class ClienteResource {
 	}
 	
 	@RequestMapping(value="/{id}/contas" ,method=RequestMethod.GET)
-	public ResponseEntity<List<Conta>> findContas(@PathVariable String id){
+	public ResponseEntity<List<Conta>> getContasByCliente(@PathVariable String id){
 		Cliente cliente = clienteService.findById(id);
 		return ResponseEntity.ok().body(cliente.getContas());
 	}
