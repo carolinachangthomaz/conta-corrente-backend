@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.carolinachang.contacorrente.domain.Cliente;
+import com.carolinachang.contacorrente.dto.ClienteDTO;
 import com.carolinachang.contacorrente.repository.ClienteRepository;
 import com.carolinachang.contacorrente.services.exception.ObjectNotFoundException;
 
@@ -25,6 +26,14 @@ public class ClienteService {
 		return	cliente.orElseThrow(() -> new ObjectNotFoundException(
 					"Cliente Não encontrado: " +id+ ", Tipo :" +Cliente.class));
 		
+	}
+	
+	public Cliente insert(Cliente cliente) {
+		return clienteRepository.insert(cliente);
+	}
+	
+	public Cliente fromDTO(ClienteDTO clienteDTO) {
+		return new Cliente(clienteDTO.getId(), clienteDTO.getNome(), clienteDTO.getEmail());
 	}
 
 }
