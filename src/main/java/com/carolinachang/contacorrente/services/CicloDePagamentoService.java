@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.carolinachang.contacorrente.domain.CicloDePagamento;
 import com.carolinachang.contacorrente.domain.Cliente;
+import com.carolinachang.contacorrente.domain.Conta;
+import com.carolinachang.contacorrente.dto.ClienteDTO;
 import com.carolinachang.contacorrente.repository.CicloDePagamentoRepository;
 import com.carolinachang.contacorrente.services.exception.ObjectNotFoundException;
 
@@ -20,6 +22,31 @@ public class CicloDePagamentoService {
 		Optional<CicloDePagamento> CicloDePagamento = cicloDePagamentoRepository.findById(id);
 		return	CicloDePagamento.orElseThrow(() -> new ObjectNotFoundException(
 				"Ciclo Não encontrado: " +id+ ", Tipo :" +Cliente.class));
+	}
+	
+	public CicloDePagamento insert(CicloDePagamento ciclo) {
+		return cicloDePagamentoRepository.insert(ciclo);
+	}
+	
+	public void delete(String id) {
+		findById(id);
+		cicloDePagamentoRepository.deleteById(id);
+	}
+	
+	public CicloDePagamento update(CicloDePagamento ciclo) {
+		CicloDePagamento newCiclo = findById(ciclo.getId());
+		updateData(newCiclo, ciclo);
+		return cicloDePagamentoRepository.save(newCiclo);
+		
+	}
+
+	private void updateData(CicloDePagamento newCiclo, CicloDePagamento ciclo) {
+		newCiclo.setNome(ciclo.getNome());
+		newCiclo.setMês(ciclo.getAno());
+		newCiclo.setAno(ciclo.getAno());
+		newCiclo.setCreditos(ciclo.getCreditos());
+		newCiclo.setDebitos(ciclo.getDebitos());
+		
 	}
 
 }
