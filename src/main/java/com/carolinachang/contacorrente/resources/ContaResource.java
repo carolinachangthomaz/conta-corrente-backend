@@ -30,11 +30,11 @@ public class ContaResource {
 		return ResponseEntity.ok().body(conta);
 	}
 	
-	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
-	public ResponseEntity<List<Conta>> findByClienteId(@PathVariable String id){
-		List<Conta> contas = contaService.findByClienteId(id);
-		return ResponseEntity.ok().body(contas);
-	}
+//	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
+//	public ResponseEntity<List<Conta>> findByClienteId(@PathVariable String id){
+//		List<Conta> contas = contaService.findByClienteId(id);
+//		return ResponseEntity.ok().body(contas);
+//	}
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Conta Conta){

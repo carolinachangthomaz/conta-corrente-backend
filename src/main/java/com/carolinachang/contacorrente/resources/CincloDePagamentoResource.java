@@ -24,8 +24,8 @@ public class CincloDePagamentoResource {
 	
 	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
 	public ResponseEntity<CicloDePagamento> findById(@PathVariable String id){
-		CicloDePagamento contas = cicloDePagamentoService.findById(id);
-		return ResponseEntity.ok().body(contas);
+		CicloDePagamento ciclo = cicloDePagamentoService.findById(id);
+		return ResponseEntity.ok().body(ciclo);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
