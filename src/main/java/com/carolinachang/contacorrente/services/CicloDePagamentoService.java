@@ -42,7 +42,7 @@ public class CicloDePagamentoService {
 
 	private void updateData(CicloDePagamento newCiclo, CicloDePagamento ciclo) {
 		newCiclo.setNome(ciclo.getNome());
-		newCiclo.setMês(ciclo.getAno());
+		newCiclo.setMes(ciclo.getAno());
 		newCiclo.setAno(ciclo.getAno());
 		newCiclo.setCreditos(ciclo.getCreditos());
 		newCiclo.setDebitos(ciclo.getDebitos());

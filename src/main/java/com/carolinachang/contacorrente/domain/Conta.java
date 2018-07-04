@@ -17,9 +17,9 @@ public class Conta implements Serializable{
 	
 	@Id
      private String id;
-     private String numero;
+     private String nome;
      private Double saldo;
-     private ContaClienteDTO cliente;
+     private ContaClienteDTO clienteDTO;
      
      @DBRef(lazy = true)
  	 @JsonIgnore
@@ -32,8 +32,8 @@ public class Conta implements Serializable{
 	public Conta(String id, String numero,ContaClienteDTO cliente) {
 		super();
 		this.id = id;
-		this.numero = numero;
-		this.cliente = cliente;
+		this.nome = numero;
+		this.clienteDTO = cliente;
 	}
 
 	public String getId() {
@@ -44,22 +44,23 @@ public class Conta implements Serializable{
 		this.id = id;
 	}
 
-	public String getNumero() {
-		return numero;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNumero(String numero) {
-		this.numero = numero;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public ContaClienteDTO getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(ContaClienteDTO cliente) {
-		this.cliente = cliente;
-	}
 	
+	public ContaClienteDTO getClienteDTO() {
+		return clienteDTO;
+	}
+
+	public void setClienteDTO(ContaClienteDTO clienteDTO) {
+		this.clienteDTO = clienteDTO;
+	}
+
 	public List<CicloDePagamento> getCiclos() {
 		return ciclos;
 	}

@@ -14,7 +14,7 @@ public class CicloDePagamento implements Serializable {
     @Id
 	private String id;
     private String nome;
-    private Integer mês;
+    private Integer mes;
     private Integer ano;
     private Conta conta;
     private Double saldo;
@@ -28,11 +28,11 @@ public class CicloDePagamento implements Serializable {
     	
     }
         
-	public CicloDePagamento(String id, String nome, Integer mês, Integer ano,Conta conta) {
+	public CicloDePagamento(String id, String nome, Integer mes, Integer ano,Conta conta) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.mês = mês;
+		this.mes = mes;
 		this.ano = ano;
 		this.conta = conta;
 	}
@@ -50,10 +50,15 @@ public class CicloDePagamento implements Serializable {
 		this.nome = nome;
 	}
 	public Integer getMês() {
-		return mês;
+		return getMes();
 	}
-	public void setMês(Integer mês) {
-		this.mês = mês;
+
+	public Integer getMes() {
+		return mes;
+	}
+
+	public void setMes(Integer mes) {
+		this.mes = mes;
 	}
 	public Integer getAno() {
 		return ano;

@@ -44,7 +44,7 @@ public class ClienteInitConfig implements CommandLineRunner{
 		
 		clienteRepository.saveAll(Arrays.asList(carol,xis));
 		
-		Conta conta = new Conta(null, "2324", new ContaClienteDTO(carol));
+		Conta conta = new Conta(null, "Conta Poupança", new ContaClienteDTO(carol));
 		carol.getContas().addAll(Arrays.asList(conta));
 		conta = contaRepository.save(conta);
 		
