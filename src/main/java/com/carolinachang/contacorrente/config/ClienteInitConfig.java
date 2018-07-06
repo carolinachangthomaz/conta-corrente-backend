@@ -48,6 +48,8 @@ public class ClienteInitConfig implements CommandLineRunner{
 		carol.getContas().addAll(Arrays.asList(conta));
 		conta = contaRepository.save(conta);
 		
+		clienteRepository.saveAll(Arrays.asList(carol,xis));
+		
 		CicloDePagamento ciclo1 = new CicloDePagamento(null, "Junho", 6, 2018,conta);
 		Credito credito1 = new Credito(sdf.parse("01/06/2018"), "Salario", 5000.00);
 		Debito debito1 = new Debito(sdf.parse("01/06/2018"), "telefone", 1000.00);
