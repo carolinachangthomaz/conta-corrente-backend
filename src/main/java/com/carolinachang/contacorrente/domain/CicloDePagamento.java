@@ -49,9 +49,6 @@ public class CicloDePagamento implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Integer getMês() {
-		return getMes();
-	}
 
 	public Integer getMes() {
 		return mes;

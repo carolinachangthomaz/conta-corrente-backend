@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.carolinachang.contacorrente.domain.CicloDePagamento;
 import com.carolinachang.contacorrente.domain.Cliente;
-import com.carolinachang.contacorrente.domain.Conta;
-import com.carolinachang.contacorrente.dto.ClienteDTO;
 import com.carolinachang.contacorrente.repository.CicloDePagamentoRepository;
 import com.carolinachang.contacorrente.services.exception.ObjectNotFoundException;
 
@@ -42,7 +40,7 @@ public class CicloDePagamentoService {
 
 	private void updateData(CicloDePagamento newCiclo, CicloDePagamento ciclo) {
 		newCiclo.setNome(ciclo.getNome());
-		newCiclo.setMes(ciclo.getAno());
+		newCiclo.setMes(ciclo.getMes());
 		newCiclo.setAno(ciclo.getAno());
 		newCiclo.setCreditos(ciclo.getCreditos());
 		newCiclo.setDebitos(ciclo.getDebitos());
