@@ -3,12 +3,15 @@ package com.carolinachang.contacorrente.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.carolinachang.contacorrente.enums.Status;
+
 public class Debito implements Serializable{
      private static final long serialVersionUID = 1L;
      
      private Date data;
      private String nome;
      private Double valor;
+     private Status status;
 
      public Debito() {
     	 
@@ -43,6 +46,14 @@ public class Debito implements Serializable{
 
 	public void setValor(Double valor) {
 		this.valor = valor;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	
      
