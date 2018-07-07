@@ -43,6 +43,31 @@ public class CincloDePagamentoResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(value="/clone", method=RequestMethod.POST)
+	public ResponseEntity<Void> clone(@RequestBody CicloDePagamento newciclo){
+		CicloDePagamento cicloClone = cicloDePagamentoService.findById(newciclo.getId());
+		CicloDePagamento novoCiclo =  cloneData(cicloClone,newciclo);
+		newciclo = cicloDePagamentoService.insert(novoCiclo);
+		Conta conta = contaService.findById(newciclo.getConta().getId());
+		conta.getCiclos().addAll(Arrays.asList(newciclo));
+		contaService.update(conta);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newciclo.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+    private CicloDePagamento cloneData(CicloDePagamento cicloClone, CicloDePagamento newciclo) {
+    	CicloDePagamento novoCiclo = new CicloDePagamento();
+    	novoCiclo.setId(null);
+    	novoCiclo.setNome(newciclo.getNome());
+    	novoCiclo.setMes(newciclo.getMes());
+        novoCiclo.setAno(newciclo.getAno());
+        novoCiclo.setConta(cicloClone.getConta());
+        novoCiclo.setCreditos(cicloClone.getCreditos());
+        novoCiclo.setDebitos(cicloClone.getDebitos());
+        
+    	return novoCiclo;
+	}
+	
 	@RequestMapping(value="/{id}" ,method=RequestMethod.DELETE)
 	public ResponseEntity<Conta> delete(@PathVariable String id){
 		cicloDePagamentoService.delete(id);
@@ -54,5 +79,7 @@ public class CincloDePagamentoResource {
 		ciclo = cicloDePagamentoService.update(ciclo);
 		return ResponseEntity.noContent().build();
 	}
+	
+	
 
 }
