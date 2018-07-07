@@ -1,6 +1,7 @@
 package com.carolinachang.contacorrente.resources;
 
 import java.net.URI;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.carolinachang.contacorrente.domain.CicloDePagamento;
 import com.carolinachang.contacorrente.domain.Conta;
 import com.carolinachang.contacorrente.services.CicloDePagamentoService;
+import com.carolinachang.contacorrente.services.ContaService;
 
 @RestController
 @RequestMapping(value="ciclos")
@@ -21,6 +23,9 @@ public class CincloDePagamentoResource {
 	
 	@Autowired
 	private CicloDePagamentoService cicloDePagamentoService;
+	
+	@Autowired
+	private ContaService contaService;
 	
 	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
 	public ResponseEntity<CicloDePagamento> findById(@PathVariable String id){
@@ -31,6 +36,9 @@ public class CincloDePagamentoResource {
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody CicloDePagamento ciclo){
 		ciclo = cicloDePagamentoService.insert(ciclo);
+		Conta conta = contaService.findById(ciclo.getConta().getId());
+		conta.getCiclos().addAll(Arrays.asList(ciclo));
+		contaService.update(conta);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(ciclo.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
