@@ -17,7 +17,7 @@ import com.carolinachang.contacorrente.dto.ClienteDTO;
 import com.carolinachang.contacorrente.services.DebitoDescricaoService;
 
 @RestController
-@RequestMapping(value="descricao")
+@RequestMapping(value="debitosdescricoes")
 public class DebitoDescricaoResource {
 	
 	@Autowired
