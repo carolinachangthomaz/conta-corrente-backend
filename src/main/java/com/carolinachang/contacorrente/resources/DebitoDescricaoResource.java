@@ -36,10 +36,10 @@ public class DebitoDescricaoResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody DebitoDescricao descricao){
+	public ResponseEntity<DebitoDescricao> insert(@RequestBody DebitoDescricao descricao){
 		descricao = descricaoService.insert(descricao);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(descricao.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(uri).body(descricao);
 	}
 	
 	@RequestMapping(value="/{id}" ,method=RequestMethod.DELETE)
@@ -49,10 +49,10 @@ public class DebitoDescricaoResource {
 	}
 	
 	@RequestMapping(value="/{id}" ,method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody DebitoDescricao descricao, @PathVariable String id){
+	public ResponseEntity<DebitoDescricao> update(@RequestBody DebitoDescricao descricao, @PathVariable String id){
 		descricao.setId(id);
 		descricao = descricaoService.update(descricao);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().body(descricao);
 	}
 
 

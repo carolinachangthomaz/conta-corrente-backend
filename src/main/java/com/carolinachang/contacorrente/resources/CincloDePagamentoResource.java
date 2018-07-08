@@ -34,17 +34,17 @@ public class CincloDePagamentoResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody CicloDePagamento ciclo){
+	public ResponseEntity<CicloDePagamento> insert(@RequestBody CicloDePagamento ciclo){
 		ciclo = cicloDePagamentoService.insert(ciclo);
 		Conta conta = contaService.findById(ciclo.getConta().getId());
 		conta.getCiclos().addAll(Arrays.asList(ciclo));
 		contaService.update(conta);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(ciclo.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(uri).body(ciclo);
 	}
 	
 	@RequestMapping(value="/clone", method=RequestMethod.POST)
-	public ResponseEntity<Void> clone(@RequestBody CicloDePagamento newciclo){
+	public ResponseEntity<CicloDePagamento> clone(@RequestBody CicloDePagamento newciclo){
 		CicloDePagamento cicloClone = cicloDePagamentoService.findById(newciclo.getId());
 		CicloDePagamento novoCiclo =  cloneData(cicloClone,newciclo);
 		newciclo = cicloDePagamentoService.insert(novoCiclo);
@@ -52,7 +52,7 @@ public class CincloDePagamentoResource {
 		conta.getCiclos().addAll(Arrays.asList(newciclo));
 		contaService.update(conta);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newciclo.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(uri).body(newciclo);
 	}
 	
     private CicloDePagamento cloneData(CicloDePagamento cicloClone, CicloDePagamento newciclo) {
@@ -76,9 +76,9 @@ public class CincloDePagamentoResource {
 	}
 	
 	@RequestMapping(value="/{id}" ,method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody CicloDePagamento ciclo, @PathVariable String id){
+	public ResponseEntity<CicloDePagamento> update(@RequestBody CicloDePagamento ciclo, @PathVariable String id){
 		ciclo = cicloDePagamentoService.update(ciclo);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().body(ciclo);
 	}
 	
 	
