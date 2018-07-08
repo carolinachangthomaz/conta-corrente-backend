@@ -65,6 +65,7 @@ public class CincloDePagamentoResource {
         novoCiclo.setCreditos(cicloClone.getCreditos());
         novoCiclo.setDebitos(cicloClone.getDebitos());
         
+        
     	return novoCiclo;
 	}
 	

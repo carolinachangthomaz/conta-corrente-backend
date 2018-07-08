@@ -12,10 +12,12 @@ import com.carolinachang.contacorrente.domain.Cliente;
 import com.carolinachang.contacorrente.domain.Conta;
 import com.carolinachang.contacorrente.domain.Credito;
 import com.carolinachang.contacorrente.domain.Debito;
+import com.carolinachang.contacorrente.domain.DebitoDescricao;
 import com.carolinachang.contacorrente.dto.ContaClienteDTO;
 import com.carolinachang.contacorrente.repository.CicloDePagamentoRepository;
 import com.carolinachang.contacorrente.repository.ClienteRepository;
 import com.carolinachang.contacorrente.repository.ContaRepository;
+import com.carolinachang.contacorrente.repository.DebitoDescricaoRepository;
 
 @Configuration
 public class ClienteInitConfig implements CommandLineRunner{
@@ -28,6 +30,9 @@ public class ClienteInitConfig implements CommandLineRunner{
 	
 	@Autowired
 	private CicloDePagamentoRepository cicloDePagamentoRepository;
+	
+	@Autowired
+	private DebitoDescricaoRepository descricaoRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -35,6 +40,7 @@ public class ClienteInitConfig implements CommandLineRunner{
 		clienteRepository.deleteAll();
 		contaRepository.deleteAll();
 		cicloDePagamentoRepository.deleteAll();
+		descricaoRepository.deleteAll();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -50,9 +56,17 @@ public class ClienteInitConfig implements CommandLineRunner{
 		
 		clienteRepository.saveAll(Arrays.asList(carol,xis));
 		
+		DebitoDescricao descricao1 = new DebitoDescricao(null,"Uber");
+		DebitoDescricao descricao2 = new DebitoDescricao(null,"Mercado");
+		
+		descricao1 = descricaoRepository.save(descricao1);
+		descricao2 = descricaoRepository.save(descricao2);
+		
 		CicloDePagamento ciclo1 = new CicloDePagamento(null, "Junho", 6, 2018,conta);
 		Credito credito1 = new Credito(sdf.parse("01/06/2018"), "Salario", 5000.00);
 		Debito debito1 = new Debito(sdf.parse("01/06/2018"), "telefone", 1000.00);
+		debito1.setDescricao(descricao1);
+		debito1.setDescricao(descricao2);
 		
 		ciclo1.getCreditos().addAll(Arrays.asList(credito1));
 		ciclo1.getDebitos().addAll(Arrays.asList(debito1));

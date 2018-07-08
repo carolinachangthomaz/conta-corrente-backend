@@ -12,6 +12,7 @@ public class Debito implements Serializable{
      private String nome;
      private Double valor;
      private Status status;
+     private DebitoDescricao descricao;
 
      public Debito() {
     	 
@@ -54,6 +55,14 @@ public class Debito implements Serializable{
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public DebitoDescricao getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(DebitoDescricao descricao) {
+		this.descricao = descricao;
 	}
 	
      
