@@ -1,7 +1,13 @@
 package com.carolinachang.contacorrente.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.carolinachang.contacorrente.domain.CicloDePagamento;
 import com.carolinachang.contacorrente.domain.Conta;
+import com.carolinachang.contacorrente.domain.Debito;
 import com.carolinachang.contacorrente.services.CicloDePagamentoService;
 import com.carolinachang.contacorrente.services.ContaService;
 
@@ -77,6 +84,28 @@ public class CincloDePagamentoResource {
 	
 	@RequestMapping(value="/{id}" ,method=RequestMethod.PUT)
 	public ResponseEntity<CicloDePagamento> update(@RequestBody CicloDePagamento ciclo, @PathVariable String id){
+		List<Debito> debitos = new ArrayList<>();
+		for (Debito t : ciclo.getDebitos()) {
+			System.out.println("Antes >> " +t.getData());
+			Date dt = new Date();
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(t.getData()); 
+			c.add(Calendar.DATE, 1);
+			dt = c.getTime();
+			System.out.println("Depois >> " +dt);
+			t.setData(dt);
+			debitos.add(t);
+			
+		}
+		
+		ciclo.setDebitos(debitos); 
+		Collections.sort(ciclo.getDebitos(), new Comparator<Debito>() {
+	        @Override
+	        public int compare(Debito o1, Debito o2) {
+	            // TODO Auto-generated method stub
+	            return o1.getData().compareTo(o2.getData());
+	        }
+	    });
 		ciclo = cicloDePagamentoService.update(ciclo);
 		return ResponseEntity.ok().body(ciclo);
 	}
