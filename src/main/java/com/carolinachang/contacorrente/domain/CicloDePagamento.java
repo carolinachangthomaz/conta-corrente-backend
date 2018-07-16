@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.carolinachang.contacorrente.enums.Status;
+
 @Document
 public class CicloDePagamento implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -73,8 +75,11 @@ public class CicloDePagamento implements Serializable {
 	}
 	
 	public Double getSaldo() {
-		this.saldo = this.getTotalCreditos() - this.getTotalDebitos();
 		return this.saldo;
+	}
+	
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
 	}
 
 	public Double getTotalCreditos() {
@@ -85,7 +90,7 @@ public class CicloDePagamento implements Serializable {
 
 	public Double getTotalDebitos() {
 		this.totalDebitos = getDebitos().stream().filter(valor -> valor != null && 
-				valor.getValor() !=null).mapToDouble(Debito::getValor).sum();
+				valor.getValor() !=null && valor.getStatus().equals(Status.PAGO)).mapToDouble(Debito::getValor).sum();
 		return totalDebitos;
 	}
 

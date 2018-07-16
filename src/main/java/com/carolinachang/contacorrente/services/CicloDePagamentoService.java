@@ -44,7 +44,11 @@ public class CicloDePagamentoService {
 		newCiclo.setAno(ciclo.getAno());
 		newCiclo.setCreditos(ciclo.getCreditos());
 		newCiclo.setDebitos(ciclo.getDebitos());
-		
+		newCiclo.setSaldo(ciclo.getSaldo());
+	}
+
+	public CicloDePagamento getSaldoMesAnterior(Integer mes, Integer ano) {
+		return cicloDePagamentoRepository.getSaldoMesAnterior(mes,ano);
 	}
 
 }

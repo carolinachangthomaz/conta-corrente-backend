@@ -1,6 +1,8 @@
 package com.carolinachang.contacorrente.resources;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,13 @@ public class ContaResource {
 	@RequestMapping(value="/{id}/ciclos" ,method=RequestMethod.GET)
 	public ResponseEntity<List<CicloDePagamento>> findCiclos(@PathVariable String id){
 		Conta conta = contaService.findById(id);
+		Collections.sort(conta.getCiclos(), new Comparator<CicloDePagamento>() {
+	        @Override
+	        public int compare(CicloDePagamento o1, CicloDePagamento o2) {
+	            // TODO Auto-generated method stub
+	            return o1.getMes().compareTo(o2.getMes());
+	        }
+	    });
 		return ResponseEntity.ok().body(conta.getCiclos());
 	}
 }
