@@ -53,18 +53,17 @@ public class CincloDePagamentoResource {
 	
 	public Double getSaldo(@RequestParam(value="mes",defaultValue="0") Integer mes,
             @RequestParam("ano") Integer ano){
+		 mes = mes > 1 ? mes - 1 : 12 ;
+	     ano = (mes == 1) ? ano - 1 : ano;
 		CicloDePagamento ciclo = cicloDePagamentoService.getSaldoMesAnterior(mes,ano);
-		if(ciclo != null) {
-			return ciclo.getSaldo();	
-		}
-		return 0.0;
+		Double saldo =  (ciclo != null && ciclo.getSaldo() != null) ?  ciclo.getSaldo()  : 0.0;
+		
+		return saldo;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<CicloDePagamento> insert(@RequestBody CicloDePagamento ciclo){
-		Double saldoMesAnterior = this.getSaldo(ciclo.getMes(), ciclo.getAno());
-		saldoMesAnterior += ciclo.getTotalCreditos() - ciclo.getTotalDebitos();
-		ciclo.setSaldo(saldoMesAnterior);
+		ciclo.setSaldo(getSaldo(ciclo));
 		ciclo = cicloDePagamentoService.insert(ciclo);
 		Conta conta = contaService.findById(ciclo.getConta().getId());
 		conta.getCiclos().addAll(Arrays.asList(ciclo));
@@ -73,6 +72,14 @@ public class CincloDePagamentoResource {
 		return ResponseEntity.created(uri).body(ciclo);
 	}
 	
+	private Double getSaldo(CicloDePagamento ciclo) {
+		Double saldoMesAnterior = this.getSaldo(ciclo.getMes(), ciclo.getAno());
+		Double totalCreditos =  ciclo.getTotalCreditos() != null ?  ciclo.getTotalCreditos()  : 0.0;
+		Double totalDebitos =  ciclo.getTotalDebitos() != null ?  ciclo.getTotalDebitos()  : 0.0;
+		return saldoMesAnterior += totalCreditos - totalDebitos;
+		
+	}
+
 	@RequestMapping(value="/clone", method=RequestMethod.POST)
 	public ResponseEntity<CicloDePagamento> clone(@RequestBody CicloDePagamento newciclo){
 		CicloDePagamento cicloClone = cicloDePagamentoService.findById(newciclo.getId());
@@ -94,9 +101,7 @@ public class CincloDePagamentoResource {
         novoCiclo.setConta(cicloClone.getConta());
         novoCiclo.setCreditos(cicloClone.getCreditos());
         novoCiclo.setDebitos(cicloClone.getDebitos());
-        Double saldoMesAnterior = this.getSaldo(cicloClone.getMes(), cicloClone.getAno());
-		saldoMesAnterior += cicloClone.getTotalCreditos() - cicloClone.getTotalDebitos();
-		novoCiclo.setSaldo(saldoMesAnterior);
+        novoCiclo.setSaldo(getSaldo(cicloClone));
         
     	return novoCiclo;
 	}
@@ -132,9 +137,7 @@ public class CincloDePagamentoResource {
 	        }
 	    });
 		
-		Double saldoMesAnterior = this.getSaldo(ciclo.getMes(), ciclo.getAno());
-		saldoMesAnterior += ciclo.getTotalCreditos() - ciclo.getTotalDebitos();
-		ciclo.setSaldo(saldoMesAnterior);
+		ciclo.setSaldo(getSaldo(ciclo));
 		
 		ciclo = cicloDePagamentoService.update(ciclo);
 		return ResponseEntity.ok().body(ciclo);
