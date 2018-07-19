@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,32 +37,13 @@ public class CincloDePagamentoResource {
 	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
 	public ResponseEntity<CicloDePagamento> findById(@PathVariable String id){
 		CicloDePagamento ciclo = cicloDePagamentoService.findById(id);
+		ciclo.setSaldo(cicloDePagamentoService.getSaldo(ciclo));
+		     
 		return ResponseEntity.ok().body(ciclo);
-	}
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<Double> getSaldoMesAnterior(@RequestParam(value="mes",defaultValue="0") Integer mes,
-            @RequestParam("ano") Integer ano){
-		CicloDePagamento ciclo = cicloDePagamentoService.getSaldoMesAnterior(mes,ano);
-		if(ciclo != null) {
-			return ResponseEntity.ok().body(ciclo.getSaldo());	
-		}
-		return ResponseEntity.ok().body(0.0);
-	}
-	
-	public Double getSaldo(@RequestParam(value="mes",defaultValue="0") Integer mes,
-            @RequestParam("ano") Integer ano){
-		 mes = mes > 1 ? mes - 1 : 12 ;
-	     ano = (mes == 1) ? ano - 1 : ano;
-		CicloDePagamento ciclo = cicloDePagamentoService.getSaldoMesAnterior(mes,ano);
-		Double saldo =  (ciclo != null && ciclo.getSaldo() != null) ?  ciclo.getSaldo()  : 0.0;
-		
-		return saldo;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<CicloDePagamento> insert(@RequestBody CicloDePagamento ciclo){
-		ciclo.setSaldo(getSaldo(ciclo));
 		ciclo = cicloDePagamentoService.insert(ciclo);
 		Conta conta = contaService.findById(ciclo.getConta().getId());
 		conta.getCiclos().addAll(Arrays.asList(ciclo));
@@ -72,14 +52,6 @@ public class CincloDePagamentoResource {
 		return ResponseEntity.created(uri).body(ciclo);
 	}
 	
-	private Double getSaldo(CicloDePagamento ciclo) {
-		Double saldoMesAnterior = this.getSaldo(ciclo.getMes(), ciclo.getAno());
-		Double totalCreditos =  ciclo.getTotalCreditos() != null ?  ciclo.getTotalCreditos()  : 0.0;
-		Double totalDebitos =  ciclo.getTotalDebitos() != null ?  ciclo.getTotalDebitos()  : 0.0;
-		return saldoMesAnterior += totalCreditos - totalDebitos;
-		
-	}
-
 	@RequestMapping(value="/clone", method=RequestMethod.POST)
 	public ResponseEntity<CicloDePagamento> clone(@RequestBody CicloDePagamento newciclo){
 		CicloDePagamento cicloClone = cicloDePagamentoService.findById(newciclo.getId());
@@ -101,8 +73,7 @@ public class CincloDePagamentoResource {
         novoCiclo.setConta(cicloClone.getConta());
         novoCiclo.setCreditos(cicloClone.getCreditos());
         novoCiclo.setDebitos(cicloClone.getDebitos());
-        novoCiclo.setSaldo(getSaldo(cicloClone));
-        
+         
     	return novoCiclo;
 	}
 	
@@ -136,8 +107,6 @@ public class CincloDePagamentoResource {
 	            return o1.getData().compareTo(o2.getData());
 	        }
 	    });
-		
-		ciclo.setSaldo(getSaldo(ciclo));
 		
 		ciclo = cicloDePagamentoService.update(ciclo);
 		return ResponseEntity.ok().body(ciclo);
