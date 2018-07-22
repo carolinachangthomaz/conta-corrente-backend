@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.carolinachang.contacorrente.enums.Status;
@@ -20,9 +19,6 @@ public class CicloDePagamento implements Serializable {
     private Integer mes;
     private Integer ano;
     private Conta conta;
-    
-    @Transient
-    private Double saldo;
     
     private Double totalCreditos;
     private Double totalDebitos;
@@ -76,14 +72,6 @@ public class CicloDePagamento implements Serializable {
 
 	public void setConta(Conta conta) {
 		this.conta = conta;
-	}
-	
-	public Double getSaldo() {
-		return this.saldo;
-	}
-	
-	public void setSaldo(Double saldo) {
-		this.saldo = saldo;
 	}
 
 	public Double getTotalCreditos() {

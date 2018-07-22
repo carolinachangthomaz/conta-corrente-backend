@@ -37,17 +37,13 @@ public class CincloDePagamentoResource {
 	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
 	public ResponseEntity<CicloDePagamento> findById(@PathVariable String id){
 		CicloDePagamento ciclo = cicloDePagamentoService.findById(id);
-		ciclo.setSaldo(cicloDePagamentoService.getSaldo(ciclo));
-		     
 		return ResponseEntity.ok().body(ciclo);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<CicloDePagamento> insert(@RequestBody CicloDePagamento ciclo){
 		ciclo = cicloDePagamentoService.insert(ciclo);
-		Conta conta = contaService.findById(ciclo.getConta().getId());
-		conta.getCiclos().addAll(Arrays.asList(ciclo));
-		contaService.update(conta);
+		this.updateCicloConta(ciclo);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(ciclo.getId()).toUri();
 		return ResponseEntity.created(uri).body(ciclo);
 	}
@@ -57,9 +53,7 @@ public class CincloDePagamentoResource {
 		CicloDePagamento cicloClone = cicloDePagamentoService.findById(newciclo.getId());
 		CicloDePagamento novoCiclo =  cloneData(cicloClone,newciclo);
 		newciclo = cicloDePagamentoService.insert(novoCiclo);
-		Conta conta = contaService.findById(newciclo.getConta().getId());
-		conta.getCiclos().addAll(Arrays.asList(newciclo));
-		contaService.update(conta);
+		this.updateCicloConta(newciclo);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newciclo.getId()).toUri();
 		return ResponseEntity.created(uri).body(newciclo);
 	}
@@ -100,6 +94,7 @@ public class CincloDePagamentoResource {
 		}
 		
 		ciclo.setDebitos(debitos); 
+		
 		Collections.sort(ciclo.getDebitos(), new Comparator<Debito>() {
 	        @Override
 	        public int compare(Debito o1, Debito o2) {
@@ -109,9 +104,32 @@ public class CincloDePagamentoResource {
 	    });
 		
 		ciclo = cicloDePagamentoService.update(ciclo);
+		
+		this.updateCicloConta(ciclo);
 		return ResponseEntity.ok().body(ciclo);
 	}
 	
-	
+	public void updateCicloConta(CicloDePagamento ciclo) {
+		Conta conta = contaService.findById(ciclo.getConta().getId());
+		
+		List<CicloDePagamento> newList = new ArrayList<>();
+		
+		List<CicloDePagamento> ciclos = conta.getCiclos();
+		if(ciclos != null) {
+			for (CicloDePagamento cicloDePagamento : ciclos) {
+				if(!ciclo.getId().equals(cicloDePagamento.getId())) {
+					newList.add(cicloDePagamento);
+				}
+			}
+			newList.add(ciclo);
+		}else {
+			newList.add(ciclo);
+		}
+		
+		
+		conta.setCiclos(null);
+		conta.setCiclos(newList);
+		contaService.update(conta);
+	}
 
 }

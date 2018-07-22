@@ -33,9 +33,9 @@ public class ClienteInitConfig implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		//clienteRepository.deleteAll();
-		//contaRepository.deleteAll();
-		//cicloDePagamentoRepository.deleteAll();
+		clienteRepository.deleteAll();
+		contaRepository.deleteAll();
+		cicloDePagamentoRepository.deleteAll();
 		//descricaoRepository.deleteAll();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -47,11 +47,11 @@ public class ClienteInitConfig implements CommandLineRunner{
 		//clienteRepository.saveAll(Arrays.asList(carol,xis));
 		
 		Conta conta = new Conta(null, "Conta Corrente", new ContaClienteDTO(carol));
-		//conta = contaRepository.save(conta);
+		conta = contaRepository.save(conta);
 		
-		//carol.getContas().addAll(Arrays.asList(conta));
+		carol.getContas().addAll(Arrays.asList(conta));
 		
-		//clienteRepository.saveAll(Arrays.asList(carol,xis));
+		clienteRepository.saveAll(Arrays.asList(carol,xis));
 		
 
 		

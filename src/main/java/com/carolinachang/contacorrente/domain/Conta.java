@@ -21,7 +21,7 @@ public class Conta implements Serializable{
      private Double saldo;
      private ContaClienteDTO clienteDTO;
      
-     @DBRef(lazy = true)
+     @DBRef(lazy = false)
  	 @JsonIgnore
      private List<CicloDePagamento> ciclos = new ArrayList<>();	
      
@@ -70,9 +70,15 @@ public class Conta implements Serializable{
 	}
 	
 	public Double getSaldo() {
-		this.saldo = getCiclos().stream().filter(ciclo -> ciclo != null && 
-				ciclo.getSaldo() !=null).mapToDouble(CicloDePagamento::getSaldo).sum();
-		System.out.println("Conta" +this.saldo);
+		Double creditos = getCiclos().stream().filter(valor -> valor != null && 
+				valor.getTotalCreditos() !=null).mapToDouble(CicloDePagamento :: getTotalCreditos).sum();
+		Double debitos = getCiclos().stream().filter(valor -> valor != null && 
+				valor.getTotalDebitos() !=null).mapToDouble(CicloDePagamento :: getTotalDebitos).sum();
+		if(creditos >= debitos) {
+			saldo =  creditos - debitos;
+		}else if(creditos < debitos){
+			saldo = debitos - creditos;
+		}
 		return saldo;
 	}
 

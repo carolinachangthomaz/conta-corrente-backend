@@ -55,7 +55,6 @@ public class ContaService {
 	private void updateData(Conta newConta, Conta conta) {
 		newConta.setNome(conta.getNome());
 		newConta.setCiclos(conta.getCiclos());
-		
 	}
 
 }
