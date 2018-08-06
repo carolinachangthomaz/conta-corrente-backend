@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.carolinachang.contacorrente.domain.Cliente;
 import com.carolinachang.contacorrente.domain.Conta;
 import com.carolinachang.contacorrente.dto.ClienteDTO;
-import com.carolinachang.contacorrente.dto.ContaClienteDTO;
 import com.carolinachang.contacorrente.repository.ContaRepository;
 import com.carolinachang.contacorrente.services.exception.ObjectNotFoundException;
 
@@ -20,7 +19,7 @@ public class ContaService {
 	private ContaRepository contaRepository;
 	
 	
-	public List<Conta> findByClienteId(ContaClienteDTO clienteId) {
+	public List<Conta> findByClienteId(ClienteDTO clienteId) {
 		List<Conta> conta = contaRepository.findByClienteDTO(clienteId);
 		return conta;
 	}

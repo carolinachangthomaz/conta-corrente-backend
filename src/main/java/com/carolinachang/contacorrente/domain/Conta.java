@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.carolinachang.contacorrente.dto.ContaClienteDTO;
+import com.carolinachang.contacorrente.dto.ClienteDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document
@@ -19,7 +19,7 @@ public class Conta implements Serializable{
      private String id;
      private String nome;
      private Double saldo;
-     private ContaClienteDTO clienteDTO;
+     private ClienteDTO clienteDTO;
      
      @DBRef(lazy = false)
  	 @JsonIgnore
@@ -29,7 +29,7 @@ public class Conta implements Serializable{
     	 
      }
 
-	public Conta(String id, String numero,ContaClienteDTO cliente) {
+	public Conta(String id, String numero,ClienteDTO cliente) {
 		super();
 		this.id = id;
 		this.nome = numero;
@@ -53,11 +53,11 @@ public class Conta implements Serializable{
 	}
 
 	
-	public ContaClienteDTO getClienteDTO() {
+	public ClienteDTO getClienteDTO() {
 		return clienteDTO;
 	}
 
-	public void setClienteDTO(ContaClienteDTO clienteDTO) {
+	public void setClienteDTO(ClienteDTO clienteDTO) {
 		this.clienteDTO = clienteDTO;
 	}
 
@@ -70,16 +70,11 @@ public class Conta implements Serializable{
 	}
 	
 	public Double getSaldo() {
-		Double creditos = getCiclos().stream().filter(valor -> valor != null && 
-				valor.getTotalCreditos() !=null).mapToDouble(CicloDePagamento :: getTotalCreditos).sum();
-		Double debitos = getCiclos().stream().filter(valor -> valor != null && 
-				valor.getTotalDebitos() !=null).mapToDouble(CicloDePagamento :: getTotalDebitos).sum();
-		if(creditos >= debitos) {
-			saldo =  creditos - debitos;
-		}else if(creditos < debitos){
-			saldo = debitos - creditos;
-		}
 		return saldo;
+	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
 	}
 
 	@Override

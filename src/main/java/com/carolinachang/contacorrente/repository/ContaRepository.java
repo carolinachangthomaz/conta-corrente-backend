@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import com.carolinachang.contacorrente.domain.Conta;
-import com.carolinachang.contacorrente.dto.ContaClienteDTO;
+import com.carolinachang.contacorrente.dto.ClienteDTO;
 
 @Repository
 public interface ContaRepository extends MongoRepository<Conta, String>{
 
-	List<Conta> findByClienteDTO(ContaClienteDTO clienteId);
+	List<Conta> findByClienteDTO(ClienteDTO clienteId);
 }

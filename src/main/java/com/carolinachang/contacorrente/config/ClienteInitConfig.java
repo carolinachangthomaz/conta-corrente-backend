@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.carolinachang.contacorrente.domain.Cliente;
 import com.carolinachang.contacorrente.domain.Conta;
-import com.carolinachang.contacorrente.dto.ContaClienteDTO;
+import com.carolinachang.contacorrente.dto.ClienteDTO;
 import com.carolinachang.contacorrente.repository.CicloDePagamentoRepository;
 import com.carolinachang.contacorrente.repository.ClienteRepository;
 import com.carolinachang.contacorrente.repository.ContaRepository;
@@ -46,12 +46,12 @@ public class ClienteInitConfig implements CommandLineRunner{
 		
 		//clienteRepository.saveAll(Arrays.asList(carol,xis));
 		
-		Conta conta = new Conta(null, "Conta Corrente", new ContaClienteDTO(carol));
+		Conta conta = new Conta(null, "Conta Corrente", new ClienteDTO(carol));
 		conta = contaRepository.save(conta);
 		
 		carol.getContas().addAll(Arrays.asList(conta));
 		
-		clienteRepository.saveAll(Arrays.asList(carol,xis));
+	    clienteRepository.saveAll(Arrays.asList(carol,xis));
 		
 
 		
